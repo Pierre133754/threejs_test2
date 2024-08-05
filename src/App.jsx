@@ -37,11 +37,14 @@ function Apol({ y }) {
 
   const ref = useRef()
   const [data] = useState({
-    x: THREE.MathUtils.randFloatSpread(2)*(width/2)
+    x: THREE.MathUtils.randFloatSpread(2)*(width/2),
+    rX: Math.random() * Math.PI,
+    rY: Math.random() * Math.PI,
+    rZ: Math.random() * Math.PI,
   })
 
   return (
-    <RigidBody enabledTranslations={[true, true, false]} colliders={false} ref={ref} position={[data.x, y, 0]} >
+    <RigidBody enabledTranslations={[true, true, false]} colliders={false} ref={ref} position={[data.x, y, 0]} rotation={[data.rX, data.rY, data.rZ]}>
       <BallCollider args={[0.48]} />
       <mesh 
       geometry={nodes.Apol001.geometry} 
@@ -49,7 +52,7 @@ function Apol({ y }) {
       scale={[0.522/2, 0.811/2, 0.85/2]} 
       material-emissive='red' 
       onClick={() => {
-        ref.current.applyImpulse({ x: 0, y: 4, z: 0 }, true)
+        ref.current.applyImpulse({ x: THREE.MathUtils.randFloatSpread(2), y: 4, z: 0 }, true)
       }}
     />
     </RigidBody>
@@ -64,7 +67,7 @@ export default function App() {
       <Suspense fallback={null} >
         <Physics>
           {
-            Array.from({ length:10 }, (v,i) => (
+            Array.from({ length:25 }, (v,i) => (
               <Apol key={i} y={i*10}/>
             ))
           }
